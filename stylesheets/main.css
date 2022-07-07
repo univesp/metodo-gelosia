@@ -89,13 +89,21 @@ hr{
   margin-top: 5px;
 }
 
+.inicio-conteudos > .quadrado{
+  width: 60px;
+  height: 60px;
+  margin-top: 5px;
+  margin-left: 15px;
+}
+
 .inicio-conteudos h1{
-  font-size: 1em;
+  font-size: 1.3em;
   display: flex;
   align-items: center;
   font-weight: bold;
-  margin-left: 5px;
+  margin-left: 15px;
   margin-top: 17px;
+  text-transform: uppercase;
 }
 
 .conteudos{
@@ -109,13 +117,29 @@ hr{
   font-family: 'Roboto', sans-serif;
 }
 
-.conteudos p:nth-child(1), .conteudos p:nth-child(4){
+.conteudos p:nth-child(1), .conteudos p:nth-child(4), #p2-item4, #p2-item5{
   margin-top: 5%;
 }
 
-.imagem-item1{
+#p3-item4, #p3-item5{
+  margin-top: 0;
+}
+
+.imagem-item1, .imagem-item2, .imagem-item3{
   display: flex;
   justify-content: center;
+}
+
+.imagem-item1 img{
+  width: 25%;
+}
+
+.imagem-item2 img{
+  width: 35%;
+}
+
+.imagem-item3 img{
+  width: 65%;
 }
 
 .return-menu{
@@ -137,6 +161,42 @@ hr{
   font-family: 'Dosis', sans-serif;
   font-weight: bold;
 }
+
+.return-menu i{
+  font-size: 2.5em;
+}
+
+.carousel-inner{
+  background-color: #E6E6E6;
+  width: 100%;
+  height: 350px;
+}
+
+.carousel-item img{
+  width: 100px;
+  margin: auto;
+  margin-top: 8%;
+}
+
+.carousel-item p{
+  width: 90%;
+  font-size: 12px;
+  margin-left: 5%;
+  margin-top: 5%;
+  font-family: 'Roboto', sans-serif;
+}
+
+#img-car6{
+  width: 150px;
+}
+
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23008EE5' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+ }
+ 
+ .carousel-control-next-icon {
+   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23008EE5' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+ }
 
 
 @media (min-width: 0px) and (max-width: 400px){
@@ -172,14 +232,7 @@ hr{
     width: 50px;
     height: 50px;
     margin-top: 5px;
-  }
-
-  .imagem-item1 img{
-    width: 30%;
-  }
-
-  .return-menu i{
-    font-size: 2.5em;
+    margin-left: 1px;
   }
 }
 
@@ -203,5 +256,16 @@ hr{
 
   .itens-navegacao{
     margin-left: -40px;
+  }
+
+  .inicio-conteudos > .quadrado{
+    width: 55px;
+    height: 55px;
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+
+  .inicio-conteudos h1{
+    font-size: 1.2em;
   }
 }

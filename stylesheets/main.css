@@ -206,6 +206,45 @@ hr{
    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23008EE5' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
  }
 
+ .inputs-box{
+   display: flex;
+  justify-content: center;
+ }
+
+ .gelosia-container{
+   display: none;
+   flex-wrap: wrap;
+   width: 150px;
+   margin: 50px auto;
+ }
+
+ .gelosia-box{
+  display: flex; 
+  position: relative; 
+  width: 70px; 
+  height: 70px; 
+  border: 1px solid grey;
+ }
+
+ .division-box{
+  position: absolute; 
+  width:97px; 
+  height: 2px; 
+  left: -14px; 
+  top: 32.5px; 
+  background-color: red; 
+  transform: rotate(-45deg);
+ }
+
+ .gelosia-span1{
+  position: absolute; 
+  top: 60%; 
+  left: 70%;
+ }
+
+ .gelosia-span2{
+  position: absolute; 
+ }
 
 @media (min-width: 0px) and (max-width: 400px){
   .primeiro-conteudo span:nth-child(1){

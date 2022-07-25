@@ -258,6 +258,32 @@
         <h1>Multiplique com o método gelosia</h1>
       </div>
 
+      <div class="conteudos">
+        <p>Insira aqui quais números você deseja multiplicar utilizando o método gelosia: </p>
+      </div>
+
+      <div class="inputs-box">
+        <input 
+          type="text" 
+          maxlength="3"
+          id="num1" 
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+        >
+        <input 
+          type="text" 
+          maxlength="3" 
+          id="num2"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+        >
+
+        <button onclick="escolherNumeros()" id="button-escolha">Escolher</button>
+      </div>
+
+      <div class="gelosia-container">
+
+      </div>
+      
+
       <a href="#itensNav">
         <div class="return-menu">
           <i class="fa fa-angle-up"></i>

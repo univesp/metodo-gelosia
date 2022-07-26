@@ -211,6 +211,40 @@ hr{
    justify-content: center;
  }
 
+ .inputs-box input{
+  background-color: #FF9600;
+  border: 0;
+  margin-left: 15px;
+  padding: 5px;
+  border-radius: 3px; 
+  width: 25%;
+  text-align: center;
+}
+
+.button-escolha-nums{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+#button-escolha{
+  text-align: center;
+  width: 150px;
+  padding: 7px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  background-color: #008EE5;
+  color: #FFF;
+  text-transform: uppercase;
+  border-radius: 5px;
+  font-weight: bold;
+}
+#button-escolha:hover{
+  background-color: rgba(0, 142, 229, .7);
+}
+
+
  .gelosia-container{
    display: none;
    flex-wrap: wrap;
@@ -238,13 +272,41 @@ hr{
 
  .gelosia-span1{
   position: absolute; 
-  top: 60%; 
-  left: 70%;
+  top: 2%; 
+  left: 14%;
+  font-weight: bold;
+  font-size: 24px;
  }
 
  .gelosia-span2{
   position: absolute; 
+  top: 50%; 
+  left: 60%;
+  font-weight: bold;
+  font-size: 24px;
  }
+
+ /*
+ #box1{
+  background: linear-gradient(
+    to bottom right, 
+    #ffffff 0%, 
+    #ffffff 50%, 
+    #FF9600 50%, 
+    #FF9600 100%
+  );
+ }
+
+ #box2, #box3{
+  background: linear-gradient(
+    to top left, 
+    #ffffff 0%, 
+    #ffffff 50%, 
+    #FF9600 50%, 
+    #FF9600 100%
+  );
+ }
+ */
 
 @media (min-width: 0px) and (max-width: 400px){
   .primeiro-conteudo span:nth-child(1){
@@ -290,6 +352,10 @@ hr{
   .carousel-item img{
     margin-top: 15%;
   }
+
+  .inputs-box input{
+    width: 40%;
+  }
 }
 
 
@@ -328,6 +394,10 @@ hr{
   .carousel-inner{
     margin-left: 10px;
     width: 95%;
+  }
+
+  .inputs-box input{
+    width: 35%;
   }
 }
 
@@ -477,6 +547,10 @@ hr{
   .imagem-item3 img{
     width: 40%;
   }
+
+  .inputs-box input{
+    width: 25%;
+  }
 }
 
 @media (min-width: 1200px) and (max-width: 1400px){
@@ -546,6 +620,10 @@ hr{
 
   .imagem-item3 img{
     width: 30%;
+  }
+
+  .inputs-box input{
+    width: 25%;
   }
 }
 

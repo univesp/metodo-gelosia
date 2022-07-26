@@ -37,17 +37,44 @@ function escolherNumeros(){
 
   let arrayFiltered = arrayNums.filter(Boolean);
   
-  arrayFiltered.forEach(nums => {
-    let boxMetodoGelosia = criaElementoBox();
-    metodoGelosiaContainer.appendChild(boxMetodoGelosia);
-  })
+  if(arrayFiltered.length === 2){
+      for (let i = 0; i < 1; i++) {
+        let boxMetodoGelosia = criaElementoBox();
+        metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+        metodoGelosiaContainer.style.width = '150px';
+      }
+  } else if(arrayFiltered.length === 3){
+    for (let i = 0; i < 2; i++) {
+      let boxMetodoGelosia = criaElementoBox();
+      metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+      metodoGelosiaContainer.style.width = '100px';
+    }
+  } else if(arrayFiltered.length === 4){
+    for (let i = 0; i < 4; i++) {
+      let boxMetodoGelosia = criaElementoBox();
+      metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+      metodoGelosiaContainer.style.width = '150px';
+    }
+  } else if(arrayFiltered.length === 5){
+    for (let i = 0; i < 6; i++) {
+      let boxMetodoGelosia = criaElementoBox();
+      metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+      metodoGelosiaContainer.style.width = '150px';
+    }
+  }
+  else if(arrayFiltered.length === 6){
+    for (let i = 0; i < 9; i++) {
+      let boxMetodoGelosia = criaElementoBox();
+      metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+      metodoGelosiaContainer.style.width = '230px';
+    }
+  }
+
   
 
   if(numero1 === "" || numero2 === ""){
     alert('Por favor insira 2 números.')
   }else{
-    console.log(numero1.length)
-
     inputArea.style.display = 'none';
   
     metodoContainer.style.display = 'flex';

@@ -157,5 +157,3 @@ let criaElementoBox = function(boxId, numberId, numberId2){
 
     return box;
 }
-
-let nu

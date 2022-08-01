@@ -36,61 +36,104 @@ function escolherNumeros(){
 
   arrayNums.push(numero1.charAt(0), numero1.charAt(1), numero1.charAt(2), numero2.charAt(0), numero2.charAt(1), numero2.charAt(2));
 
-  let arrayFiltered = arrayNums.filter(Boolean);
+  let vertical = numero2.length;
+  let horizontal = numero1.length;
 
-  
-
-  if(numero1 === "" || numero2 === ""){
-    alert('Por favor insira 2 números.');
-    
-  }else{
-
-      if(arrayFiltered.length === 2){
-        for (let i = 0; i < 1; i++) {
-          let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
-          metodoGelosiaContainer.appendChild(boxMetodoGelosia);
-          metodoGelosiaContainer.style.width = '150px';
+  for (let i = 0; i < horizontal+1; i++) {
+    if(i === 0){
+      for (let j = 0; j < horizontal+1; j++){
+        let p = document.createElement('p');
+        if(j < horizontal){
+          p.innerHTML = numero1[j];
+        }else{
+          p.innerHTML = '';
         }
-    } else if(arrayFiltered.length === 3){
-      for (let i = 0; i < 2; i++) {
-        let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
-        metodoGelosiaContainer.appendChild(boxMetodoGelosia);
-        metodoGelosiaContainer.style.width = '100px';
+        
+        p.style.width = "70px";
+        p.style.height = "70px";
+        metodoGelosiaContainer.appendChild(p)
       }
-    } else if(arrayFiltered.length === 4 && numero1.length === 2 && numero2.length === 2){
-      for (let i = 0; i < 4; i++) {
-        let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
-        metodoGelosiaContainer.appendChild(boxMetodoGelosia);
-        metodoGelosiaContainer.style.width = '150px';
+    }else{
+      for (let j = 0; j < vertical+1; j++){
+        if(j < vertical){
+          let boxMetodoGelosia = criaElementoBox(1, 1, 1);
+          metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+        }else{
+          let p = document.createElement('p');
+          p.innerHTML = numero2[i-1];
+          p.style.width = "70px";
+          p.style.height = "70px";
+          metodoGelosiaContainer.appendChild(p);
+        }
+        
       }
-    } else if(arrayFiltered.length === 4 && numero1.length === 1 && numero2.length === 3 || numero1.length === 3 && numero2.length === 1){
-      for (let i = 0; i < 3; i++) {
-        let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
-        metodoGelosiaContainer.appendChild(boxMetodoGelosia);
-        metodoGelosiaContainer.style.width = '100px';
-      }
-    } else if(arrayFiltered.length === 5){
-      for (let i = 0; i < 6; i++) {
-        let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
-        metodoGelosiaContainer.appendChild(boxMetodoGelosia);
-        metodoGelosiaContainer.style.width = '150px';
-      }
-    }
-    else if(arrayFiltered.length === 6){
-      for (let i = 0; i < 9; i++) {
-        let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
-        metodoGelosiaContainer.appendChild(boxMetodoGelosia);
-        metodoGelosiaContainer.style.width = '230px';
-      }
-    }
-
-    inputArea.style.display = 'none';
-    buttonChoice.style.display = 'none';
+      if(horizontal === 1){
+        metodoGelosiaContainer.style.width = "150px";
   
-    metodoContainer.style.display = 'flex';
+      }else if(horizontal === 2){
+        metodoGelosiaContainer.style.width = "230px";
+  
+      }else if(horizontal === 3){
+        metodoGelosiaContainer.style.width = "310px";
+  
+      }
+    }
   }
+
+  inputArea.style.display = 'none';
+  buttonChoice.style.display = 'none';
+  metodoContainer.style.display = 'flex';
  
 }
+
+/*
+else{
+
+  if(arrayFiltered.length === 2){
+    for (let i = 0; i < 1; i++) {
+      let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
+      metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+      metodoGelosiaContainer.style.width = '150px';
+    }
+} else if(arrayFiltered.length === 3){
+  for (let i = 0; i < 2; i++) {
+    let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
+    metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+    metodoGelosiaContainer.style.width = '100px';
+  }
+} else if(arrayFiltered.length === 4 && numero1.length === 2 && numero2.length === 2){
+  for (let i = 0; i < 4; i++) {
+    let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
+    metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+    metodoGelosiaContainer.style.width = '150px';
+  }
+} else if(arrayFiltered.length === 4 && numero1.length === 1 && numero2.length === 3 || numero1.length === 3 && numero2.length === 1){
+  for (let i = 0; i < 3; i++) {
+    let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
+    metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+    metodoGelosiaContainer.style.width = '100px';
+  }
+} else if(arrayFiltered.length === 5){
+  for (let i = 0; i < 6; i++) {
+    let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
+    metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+    metodoGelosiaContainer.style.width = '150px';
+  }
+}
+else if(arrayFiltered.length === 6){
+  for (let i = 0; i < 9; i++) {
+    let boxMetodoGelosia = criaElementoBox(i+1, i+1, i+2);
+    metodoGelosiaContainer.appendChild(boxMetodoGelosia);
+    metodoGelosiaContainer.style.width = '230px';
+  }
+}
+
+inputArea.style.display = 'none';
+buttonChoice.style.display = 'none';
+
+metodoContainer.style.display = 'flex';
+}
+*/
 
 let criaElementoBox = function(boxId, numberId, numberId2){
     let box = document.createElement("div");
@@ -114,3 +157,5 @@ let criaElementoBox = function(boxId, numberId, numberId2){
 
     return box;
 }
+
+let nu

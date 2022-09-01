@@ -209,6 +209,7 @@ hr{
  .inputs-box{
    display: flex;
    justify-content: center;
+   margin-top: 20px;
  }
 
  .inputs-box input{
@@ -225,6 +226,7 @@ hr{
   display: flex;
   justify-content: center;
   margin-top: 30px;
+  margin-bottom: 25px;
 }
 
 #button-escolha{
@@ -249,7 +251,8 @@ hr{
    display: none;
    flex-wrap: wrap;
    width: 150px;
-   margin: 50px auto;
+   margin-top: 20px;
+   margin-bottom: 50px;
  }
 
  .gelosia-box{
@@ -308,6 +311,13 @@ hr{
  }
  */
 
+ .area-gelosia-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 7%;
+ }
+
 @media (min-width: 0px) and (max-width: 400px){
   .primeiro-conteudo span:nth-child(1){
     font-size: .6em;
@@ -356,6 +366,11 @@ hr{
   .inputs-box input{
     width: 40%;
   }
+
+  .area-gelosia-container{
+    margin-top: -10px;
+    margin-left: 20%;
+   }
 }
 
 
@@ -399,6 +414,10 @@ hr{
   .inputs-box input{
     width: 35%;
   }
+
+  .area-gelosia-container{
+    margin-left: 20%;
+   }
 }
 
 @media (min-width: 575px) and (max-width: 768px){
@@ -444,6 +463,10 @@ hr{
   .carousel-control-prev {
     left: 20px;
   }
+
+  .area-gelosia-container{
+    margin-left: 18%;
+   }
 }
 
 @media (min-width: 768px) and (max-width: 991px){
@@ -489,6 +512,10 @@ hr{
   .carousel-control-prev {
     left: 20px;
   }
+
+  .area-gelosia-container{
+    margin-left: 15%;
+   }
 }
 
 @media (min-width: 992px) and (max-width: 1200px){
@@ -551,6 +578,10 @@ hr{
   .inputs-box input{
     width: 25%;
   }
+
+  .area-gelosia-container{
+    margin-left: 10%;
+   }
 }
 
 @media (min-width: 1200px) and (max-width: 1400px){
@@ -620,6 +651,10 @@ hr{
 
   .imagem-item3 img{
     width: 30%;
+  }
+
+  .inputs-box input{
+    width: 10%;
   }
 
   .inputs-box input{
@@ -704,4 +739,13 @@ hr{
   .carousel-control-prev {
     left: 20px;
   }
+
+  .inputs-box input{
+    width: 10%;
+  }
+
+
+  .area-gelosia-container{
+    margin-left: 5%;
+   }
 }

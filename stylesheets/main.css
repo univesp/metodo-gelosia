@@ -318,6 +318,16 @@ hr{
   margin-left: 7%;
  }
 
+ .paragrafo_da_caixa{
+  width : 70px;
+  height : 50px;
+  font-weight : bold;
+  font-size: 28px;
+  position : relative;
+  left : 27px;
+  top : 10px;
+ }
+
 @media (min-width: 0px) and (max-width: 400px){
   .primeiro-conteudo span:nth-child(1){
     font-size: .6em;

@@ -253,6 +253,7 @@ hr{
    width: 150px;
    margin-top: 20px;
    margin-bottom: 50px;
+   margin-left: 80px;
  }
 
  .gelosia-box{
@@ -313,9 +314,9 @@ hr{
 
  .area-gelosia-container{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: 7%;
  }
 
  .paragrafo_da_caixa{
@@ -326,6 +327,49 @@ hr{
   position : relative;
   left : 27px;
   top : 10px;
+ }
+
+ .box-controls{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+ }
+
+ .controleNum{
+  font-size: 42px;
+  font-weight: bold;
+  color: #008EE5;
+  margin: 0 5px;
+ }
+
+ .controleMult{
+  font-size: 30px;
+  font-weight: bold;
+  color: #FF9600;
+  position: relative;
+  top: 5px;
+  left: 1px;
+ }
+
+ .area-controls{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+
+ .input-num-control{
+  outline: none;
+  width: 55%;
+  text-align: center;
+  margin-top: 5px;
+ }
+
+ .fa-angle-right{
+  color: #008EE5;
+  font-size: 2.5em;
+  cursor: pointer;
+  margin-top: -10px;
  }
 
 @media (min-width: 0px) and (max-width: 400px){
@@ -379,7 +423,6 @@ hr{
 
   .area-gelosia-container{
     margin-top: -10px;
-    margin-left: 20%;
    }
 }
 
@@ -424,10 +467,6 @@ hr{
   .inputs-box input{
     width: 35%;
   }
-
-  .area-gelosia-container{
-    margin-left: 20%;
-   }
 }
 
 @media (min-width: 575px) and (max-width: 768px){
@@ -473,10 +512,6 @@ hr{
   .carousel-control-prev {
     left: 20px;
   }
-
-  .area-gelosia-container{
-    margin-left: 18%;
-   }
 }
 
 @media (min-width: 768px) and (max-width: 991px){
@@ -522,10 +557,6 @@ hr{
   .carousel-control-prev {
     left: 20px;
   }
-
-  .area-gelosia-container{
-    margin-left: 15%;
-   }
 }
 
 @media (min-width: 992px) and (max-width: 1200px){
@@ -588,10 +619,6 @@ hr{
   .inputs-box input{
     width: 25%;
   }
-
-  .area-gelosia-container{
-    margin-left: 10%;
-   }
 }
 
 @media (min-width: 1200px) and (max-width: 1400px){
@@ -753,9 +780,4 @@ hr{
   .inputs-box input{
     width: 10%;
   }
-
-
-  .area-gelosia-container{
-    margin-left: 5%;
-   }
 }

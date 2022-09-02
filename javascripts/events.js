@@ -61,6 +61,7 @@ function escolherNumeros(){
     metodoGelosiaContainer.style.width = retornaTamanhoBoxGelosia(horizontal)
     escondeElementos([inputArea,buttonChoice,metodoContainer])
     revelaFlexElementos([metodoContainer])
+    areaMetodo.appendChild(criaControls(4,1));
   }else{
     alert("Por favor insira 2 números.")
   }
@@ -118,4 +119,51 @@ let criaParagrafosProsCantos = function(innerHTML){
   p.innerHTML = innerHTML
   p.classList.add('paragrafo_da_caixa')
   return(p)
+}
+
+let criaControls = function(numero1, numero2){
+  let boxControls = document.createElement("div");
+  boxControls.classList.add('box-controls');
+
+  let areaControls = document.createElement("div");
+  areaControls.classList.add('area-controls');
+
+  let spanNum1 = document.createElement("span");
+  spanNum1.classList.add('controleNum');
+  spanNum1.innerHTML = numero1;
+
+  let spanNum2 = document.createElement("span");
+  spanNum2.classList.add('controleNum');
+  spanNum2.innerHTML = numero2;
+
+  let spanMult = document.createElement("span");
+  spanMult.classList.add('controleMult');
+  spanMult.innerHTML = "X";
+
+  areaControls.appendChild(spanNum1);
+  areaControls.appendChild(spanMult);
+  areaControls.appendChild(spanNum2);
+
+  let controlInput = document.createElement("input");
+  controlInput.classList.add('input-num-control');
+  controlInput.setAttribute('type', 'text');
+  controlInput.setAttribute('maxlength', '2');
+  controlInput.setAttribute('id', 'numControl');
+
+  let areaIconControl = document.createElement("span");
+
+  let iconControl = document.createElement("i");
+  iconControl.classList.add('fa');
+  iconControl.classList.add('fa-angle-right');
+
+  areaIconControl.appendChild(iconControl);
+
+  let quebraLinha = document.createElement("br");
+
+  boxControls.appendChild(areaControls);
+  boxControls.appendChild(controlInput);
+  boxControls.appendChild(quebraLinha);
+  boxControls.appendChild(areaIconControl);
+
+  return boxControls;
 }

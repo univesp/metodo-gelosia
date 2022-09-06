@@ -372,6 +372,17 @@ hr{
   margin-top: -10px;
  }
 
+ .error-input{
+    position: relative;
+    animation: shake .1s linear;
+    animation-iteration-count: 3;
+ }
+
+ @keyframes shake{
+    0% { left: -5px; }
+    100% { right: -5px; }
+ }
+
 @media (min-width: 0px) and (max-width: 400px){
   .primeiro-conteudo span:nth-child(1){
     font-size: .6em;

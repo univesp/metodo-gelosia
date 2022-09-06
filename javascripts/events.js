@@ -31,6 +31,11 @@ function escolherNumeros(){
   let metodoContainer = document.querySelector('.gelosia-container');
   let areaMetodo = document.querySelector('.area-gelosia-container');
 
+  let arrayNums = [];
+  arrayNums.push(numero1.charAt(0), numero1.charAt(1), numero1.charAt(2), numero2.charAt(0), numero2.charAt(1), numero2.charAt(2));
+  let arrayFiltered = arrayNums.filter(Boolean);
+
+  console.log(arrayFiltered)
 
   let vertical = numero2.length;
   let horizontal = numero1.length;
@@ -61,7 +66,32 @@ function escolherNumeros(){
     metodoGelosiaContainer.style.width = retornaTamanhoBoxGelosia(horizontal)
     escondeElementos([inputArea,buttonChoice,metodoContainer])
     revelaFlexElementos([metodoContainer])
-    areaMetodo.appendChild(criaControls(4,1));
+    areaMetodo.appendChild(criaControls(arrayFiltered[0], arrayFiltered[2]));
+
+    let next = document.querySelector('.fa-angle-right');
+    let responseInput = document.querySelector('#numControl');
+    let teste = function(){
+      let mult = arrayFiltered[0] * arrayFiltered[2];
+      let responseUser = responseInput.value;
+      let responseNum1 = document.querySelector('#controleNum1');
+      let responseNum2 = document.querySelector('#controleNum2');
+      console.log(mult);
+      console.log(responseUser);
+
+      if(responseUser == mult){
+        console.log('tudo certo');
+        responseNum1.innerHTML = arrayFiltered[1];
+        mult = arrayFiltered[1] * arrayFiltered[2];
+        responseUser.innerHTML = "";
+      }else{
+        console.log('resposta errada');
+        responseInput.style.border = "3px solid red";
+        responseInput.classList.add('error-input');
+        setTimeout(function(){responseInput.classList.remove('error-input')}, 300);
+      }
+    }
+
+    next.addEventListener('click', teste);
   }else{
     alert("Por favor insira 2 números.")
   }
@@ -130,10 +160,12 @@ let criaControls = function(numero1, numero2){
 
   let spanNum1 = document.createElement("span");
   spanNum1.classList.add('controleNum');
+  spanNum1.setAttribute('id', 'controleNum1');
   spanNum1.innerHTML = numero1;
 
   let spanNum2 = document.createElement("span");
   spanNum2.classList.add('controleNum');
+  spanNum2.setAttribute('id', 'controleNum2');
   spanNum2.innerHTML = numero2;
 
   let spanMult = document.createElement("span");

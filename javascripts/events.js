@@ -21,6 +21,52 @@ $(document).ready(function(){
 
 })
 
+let objeto = {
+  numeroHorizontal: 0,
+  numeroVertical: 0,
+  ids:[],
+  cena:0,
+  getDigitoNumero : function(vertical, digito){
+    let number = ''
+    
+    if(vertical){
+      if (this.numeroVertical < 10){
+        number = '0' + this.numeroVertical;
+      }
+      else{
+        number = this.numeroVertical.toString();
+      }
+    }
+    else{
+      if (this.numeroHorizontal < 10){
+        number = '0' + this.numeroHorizontal;
+      }
+      else{
+        number = this.numeroHorizontal.toString();
+      }
+    }
+    return(number[digito-1])
+  },
+  multiplicacaoConformeCena : function(){
+    let verticalTamanho = this.numeroVertical.toString().length
+    let horizontalTamanho = this.numeroHorizontal.toString().length
+    let linha = Math.floor(this.cena/verticalTamanho)
+    let coluna = this.cena % horizontalTamanho
+    let valor1 = parseInt(this.numeroVertical.toString()[linha])
+    let valor2 = parseInt(this.numeroHorizontal.toString()[coluna])
+    return(valor1*valor2)
+  },
+  atualizaSpans: function(){
+    let verticalTamanho = this.numeroVertical.toString().length
+    let horizontalTamanho = this.numeroHorizontal.toString().length
+    let linha = Math.floor(this.cena/verticalTamanho)
+    let coluna = (this.cena % horizontalTamanho) 
+    console.log('linha: ', linha, ' coluna: ', coluna, ' span1 : ', this.numeroVertical.toString()[linha], ' span2: ', this.numeroHorizontal.toString()[coluna])
+    atualizaSpan1(parseInt(this.numeroHorizontal.toString()[coluna]))
+    atualizaSpan2(parseInt(this.numeroVertical.toString()[linha]))
+  }
+}
+
 
 function escolherNumeros(){
   let numero1 = document.querySelector('#num1').value;
@@ -31,7 +77,8 @@ function escolherNumeros(){
   let metodoContainer = document.querySelector('.gelosia-container');
   let areaMetodo = document.querySelector('.area-gelosia-container');
 
-
+  objeto.numeroHorizontal = numero1;
+  objeto.numeroVertical = numero2;
   let vertical = numero2.length;
   let horizontal = numero1.length;
 
@@ -41,19 +88,24 @@ function escolherNumeros(){
 
   if(numero1 !== "" && numero2 !== ""){
     //Varre as linhas da "tabela"
-    for (let i = 0; i < vertical+1; i++) {
-      if(i === 0){
+    for (let linha = 0; linha < vertical+1; linha++) {
+      if(linha === 0){
         //Varre as colunas da "tabela" para a primeira linha.
-        for (let j = 0; j < horizontal+1; j++){
+        for (let coluna = 0; coluna < horizontal+1; coluna++){
           //Preenche com o primeiro número, e coloca vazio na última célula.
-          let p = (j < horizontal) ? criaParagrafosProsCantos(numero1[j]) : criaParagrafosProsCantos('')
+          let p = (coluna < horizontal) ? criaParagrafosProsCantos(numero1[coluna]) : criaParagrafosProsCantos('')
           metodoGelosiaContainer.appendChild(p)
         }
       }else{
         //Varre as colunas da "tabela" para as demais linhas.
-        for (let j = 0; j < horizontal+1; j++){
+        for (let coluna = 0; coluna < horizontal+1; coluna++){
           //Cria caixas para a tabela, e insere no último elemento um parágrafo vazio.
-          let elemento = (j < horizontal) ? criaElementoBox(1, 1, 1) : criaParagrafosProsCantos(numero2[i-1])
+          if(coluna < horizontal){
+            objeto.ids.push('linha_' + linha + '_coluna_' + coluna + '_cima')
+            objeto.ids.push('linha_' + linha + '_coluna_' + coluna + '_baixo')
+          }
+          console.log(objeto)
+          let elemento = (coluna < horizontal) ? criaElementoBox('linha_' + linha + '_coluna_' + coluna, 'linha_' + linha + '_coluna_' + coluna + '_cima', 'linha_' + linha + '_coluna_' + coluna + '_baixo') : criaParagrafosProsCantos(numero2[linha-1])
           metodoGelosiaContainer.appendChild(elemento);
         } 
       }
@@ -61,7 +113,7 @@ function escolherNumeros(){
     metodoGelosiaContainer.style.width = retornaTamanhoBoxGelosia(horizontal)
     escondeElementos([inputArea,buttonChoice,metodoContainer])
     revelaFlexElementos([metodoContainer])
-    areaMetodo.appendChild(criaControls(4,1));
+    areaMetodo.appendChild(criaControls(objeto.getDigitoNumero(false, 1),objeto.getDigitoNumero(true, 1)));
   }else{
     alert("Por favor insira 2 números.")
   }
@@ -70,15 +122,15 @@ function escolherNumeros(){
 let criaElementoBox = function(boxId, numberId, numberId2){
     let box = document.createElement("div");
     box.classList.add('gelosia-box');
-    box.setAttribute('id', `box${boxId}`);
+    box.setAttribute('id', `box_${boxId}`);
 
     let spanFirstNumber = document.createElement("span");
     spanFirstNumber.classList.add('gelosia-span1');
-    spanFirstNumber.setAttribute('id', `span${numberId}`);
+    spanFirstNumber.setAttribute('id', `span_${numberId}`);
 
     let spanSecondNumber = document.createElement("span");
     spanSecondNumber.classList.add('gelosia-span2');
-    spanSecondNumber.setAttribute('id', `span${numberId2}`);
+    spanSecondNumber.setAttribute('id', `span_${numberId2}`);
 
     let risquinho = document.createElement("span");
     risquinho.classList.add('division-box');
@@ -121,6 +173,40 @@ let criaParagrafosProsCantos = function(innerHTML){
   return(p)
 }
 
+let avanca = function(){
+  let input = document.querySelector('.input-num-control')
+  let valor = input.value
+  let letra = ''
+  console.log('#' + objeto.ids[objeto.cena], document.querySelector('#' + objeto.ids[objeto.cena]))
+  let primeiroTriangulo = document.querySelector('#span_' + objeto.ids[2*objeto.cena]) 
+  let segundoTriangulo = document.querySelector('#span_' + objeto.ids[2*objeto.cena+1]) 
+  if(valor < 10){
+    letra = '0' + valor;
+  }
+  else{
+    letra = valor.toString();
+  }
+  if(objeto.multiplicacaoConformeCena() != valor){
+    alert('Valor está errado')
+    return 0
+  }
+  zeraInput()
+  primeiroTriangulo.innerHTML = letra[0]
+  segundoTriangulo.innerHTML = letra[1]
+  objeto.cena++;
+  objeto.atualizaSpans();
+}
+
+let atualizaSpan1 = function(e){
+  document.querySelector('#controleNum-1').innerHTML = e
+}
+let atualizaSpan2 = function(e){
+  document.querySelector('#controleNum-2').innerHTML = e
+}
+let zeraInput = function(){
+  document.querySelector('.input-num-control').value = ''
+}
+
 let criaControls = function(numero1, numero2){
   let boxControls = document.createElement("div");
   boxControls.classList.add('box-controls');
@@ -130,10 +216,12 @@ let criaControls = function(numero1, numero2){
 
   let spanNum1 = document.createElement("span");
   spanNum1.classList.add('controleNum');
+  spanNum1.id = 'controleNum-1'
   spanNum1.innerHTML = numero1;
 
   let spanNum2 = document.createElement("span");
   spanNum2.classList.add('controleNum');
+  spanNum2.id = 'controleNum-2'
   spanNum2.innerHTML = numero2;
 
   let spanMult = document.createElement("span");
@@ -153,6 +241,7 @@ let criaControls = function(numero1, numero2){
   let areaIconControl = document.createElement("span");
 
   let iconControl = document.createElement("i");
+  iconControl.addEventListener('click', avanca)
   iconControl.classList.add('fa');
   iconControl.classList.add('fa-angle-right');
 
@@ -167,3 +256,4 @@ let criaControls = function(numero1, numero2){
 
   return boxControls;
 }
+

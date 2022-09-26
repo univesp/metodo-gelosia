@@ -187,11 +187,21 @@ function escolherNumeros(){
         //Varre as colunas da "tabela" para as demais linhas.
         for (let coluna = 0; coluna < vertical; coluna++){
           //Cria caixas para a tabela, e insere no último elemento um parágrafo vazio.
-          let idDiagCima  = 'linha_' + linha + '_coluna_' + (coluna+1) + '_cima'
-          let idDiagBaixo = 'linha_' + linha + '_coluna_' + (coluna+1) + '_baixo'
+          let idDiagCima  = 'linha_' + linha + '_coluna_' + (coluna+1) + '_cima';
+          let idDiagBaixo = 'linha_' + linha + '_coluna_' + (coluna+1) + '_baixo';
+          let idDiagFundoCima = 'linha_' + linha + '_coluna_' + (coluna+1) + '_cimaFundo';
+          let idDiagFundoBaixo = 'linha_' + linha + '_coluna_' + (coluna+1) + '_baixoFundo';
+          let fundoCima = document.createElement('span');
+          fundoCima.classList.add('fundo-somas-cima');
+          fundoCima.setAttribute('id', `${idDiagFundoCima}`);
+          let fundoBaixo = document.createElement('span');
+          fundoBaixo.classList.add('fundo-somas-baixo');
+          fundoBaixo.setAttribute('id', `${idDiagFundoBaixo}`);
           objeto.ids.push(idDiagCima)
           objeto.ids.push(idDiagBaixo)
           let elemento = criaElementoBox('linha_' + linha + '_coluna_' + coluna, idDiagCima, idDiagBaixo)
+          elemento.appendChild(fundoCima);
+          elemento.appendChild(fundoBaixo);
           metodoGelosiaContainer.appendChild(elemento);
         }
         metodoGelosiaContainer.appendChild(criaParagrafosProsCantos(numero2[linha-1]))           

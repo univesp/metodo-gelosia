@@ -22,52 +22,135 @@ $(document).ready(function(){
 })
 
 let objeto = {
-  numeroHorizontal: 0,
+  cena: 0,
   numeroVertical: 0,
-  ids:[],
-  cena:0,
+  numeroHorizontal: 0,
+  ids: [],
+  idsDiagonais: [
+    ['span_linha_1_coluna_1_cima'],
+    ['span_linha_1_coluna_2_cima' ,'span_linha_1_coluna_1_baixo','span_linha_2_coluna_1_cima' ],
+    ['span_linha_1_coluna_3_cima' ,'span_linha_1_coluna_2_baixo','span_linha_2_coluna_2_cima' ,'span_linha_2_coluna_1_baixo','span_linha_3_coluna_1_cima' ],
+    ['span_linha_1_coluna_3_baixo','span_linha_2_coluna_3_cima' ,'span_linha_2_coluna_2_baixo','span_linha_3_coluna_2_cima' ,'span_linha_3_coluna_1_baixo'],
+    ['span_linha_2_coluna_3_baixo','span_linha_3_coluna_3_cima' ,'span_linha_3_coluna_2_baixo'],
+    ['span_linha_3_coluna_3_baixo'],  
+  ],
+  somaDiagonal : function(n){
+    let soma = 0
+    for (let i = 0; i < this.idsDiagonais[n-1].length; i++) {
+      let id = this.idsDiagonais[n-1][i];
+      let elemento = document.getElementById(id)
+      if(document.body.contains(elemento)){
+        soma += parseInt(elemento.innerHTML)
+      }
+    }
+    return(soma)
+  },
+  coloreDiagonal : function(n){
+    for (let i = 0; i < this.idsDiagonais[n-1].length; i++) {
+      let id = this.idsDiagonais[n-1][i];
+      let elemento = document.getElementById(id)
+      if(document.body.contains(elemento)){
+        elemento.style.backgroundColor = 'red'
+      }
+    }
+  },
+  descoloreTodasAsDiagonais : function(){
+    for (let i = 0; i < 6; i++) {
+      let diagonal = this.idsDiagonais[i];
+      for (let j = 0; j < diagonal.length; j++) {
+        let id = diagonal[j];
+        let elemento = document.getElementById(id)
+        if(document.body.contains(elemento)){
+          elemento.style.backgroundColor = 'white'
+        }
+      }
+    }
+  },
+  preencheSpansDiagonal : function(n){
+    let areaControls = document.querySelector('.area-controls')
+    for (let i = 0; i < this.idsDiagonais[n-1].length; i++) {
+      let id = this.idsDiagonais[n-1][i];
+      let elemento = document.getElementById(id)
+      if(document.body.contains(elemento)){
+        let valor = elemento.innerHTML;
+        let span = document.createElement('span')
+        span.innerHTML = valor
+        span.classList.add('controleNum')
+        areaControls.appendChild(span)
+        let simboloMais = document.createElement('span')
+        simboloMais.classList.add('controleMult')
+        simboloMais.innerHTML = '+'
+        areaControls.appendChild(simboloMais)
+      }
+    }
+    areaControls.removeChild(areaControls.lastElementChild);
+  },
   getDigitoNumero : function(vertical, digito){
     let number = ''
-    
-    if(vertical){
-      if (this.numeroVertical < 10){
-        number = '0' + this.numeroVertical;
-      }
-      else{
-        number = this.numeroVertical.toString();
-      }
-    }
-    else{
-      if (this.numeroHorizontal < 10){
-        number = '0' + this.numeroHorizontal;
-      }
-      else{
-        number = this.numeroHorizontal.toString();
-      }
-    }
+    if(vertical)
+      number = this.numeroHorizontal.toString()
+    else
+      number = this.numeroVertical.toString()
     return(number[digito-1])
   },
   multiplicacaoConformeCena : function(){
-    let verticalTamanho = this.numeroVertical.toString().length
-    let horizontalTamanho = this.numeroHorizontal.toString().length
-    let linha = Math.floor(this.cena/verticalTamanho)
-    let coluna = this.cena % horizontalTamanho
-    let valor1 = parseInt(this.numeroVertical.toString()[linha])
-    let valor2 = parseInt(this.numeroHorizontal.toString()[coluna])
+    let linha = this.nQualLinhaEstou()
+    let coluna = this.nQualColunaEstou()
+    let valor1 = parseInt(this.numeroHorizontal.toString()[linha-1])
+    let valor2 = parseInt(this.numeroVertical.toString()[coluna-1])
     return(valor1*valor2)
   },
   atualizaSpans: function(){
-    let verticalTamanho = this.numeroVertical.toString().length
-    let horizontalTamanho = this.numeroHorizontal.toString().length
-    let linha = Math.floor(this.cena/verticalTamanho)
-    let coluna = (this.cena % horizontalTamanho) 
-    console.log('linha: ', linha, ' coluna: ', coluna, ' span1 : ', this.numeroVertical.toString()[linha], ' span2: ', this.numeroHorizontal.toString()[coluna])
-    atualizaSpan1(parseInt(this.numeroHorizontal.toString()[coluna]))
-    atualizaSpan2(parseInt(this.numeroVertical.toString()[linha]))
+    let qualLinhaEstou  = this.nQualLinhaEstou()
+    let qualColunaEstou = this.nQualColunaEstou()
+    atualizaSpan1(parseInt(this.numeroVertical.toString()[qualColunaEstou-1]))
+    atualizaSpan2(parseInt(this.numeroHorizontal.toString()[qualLinhaEstou-1]))
+  },
+  verificaFimDo1Ato: function(){
+    return ((this.cena-1) < this.getNumeroDeCelulas())
+  },
+  getNumeroDeCelulas: function(){
+    let digitoHorizontal = this.numeroVertical.toString().length
+    let digitoVertical = this.numeroHorizontal.toString().length
+    return(digitoHorizontal*digitoVertical)
+  },
+  getNumeroDeDiagonais: function(){
+    let linha  = this.numeroVertical.toString().length
+    let coluna = this.numeroHorizontal.toString().length
+    let nDiagonais = 0
+    nDiagonais = linha == coluna ? 2*linha : Math.max(linha,coluna)+1
+    return(nDiagonais)
+  },
+  nLinhas: function(){
+    return(this.numeroVertical.toString().length)
+  },
+  nColunas: function(){
+    return(this.numeroHorizontal.toString().length)
+  },
+  nQualColunaEstou: function(){
+    let coluna = 0
+    if(this.cena % this.numeroVertical.toString().length == 0){
+      coluna = this.numeroVertical.toString().length
+    }
+    else{
+      coluna = this.cena % this.numeroVertical.toString().length
+    } 
+    return(coluna)
+  },
+  nQualLinhaEstou: function(){
+    let linha = 0
+    if(this.cena % this.numeroVertical.toString().length == 0){
+      linha = this.cena / this.numeroVertical.toString().length
+    }
+    else{
+      linha = Math.ceil(this.cena/this.numeroVertical.toString().length)
+    }
+    return(linha) 
+  },
+  getCenaDoSegundoAto : function(){
+    return(this.cena - this.getNumeroDeCelulas())
   }
 }
-
-
 function escolherNumeros(){
   let numero1 = document.querySelector('#num1').value;
   let numero2 = document.querySelector('#num2').value; 
@@ -77,48 +160,59 @@ function escolherNumeros(){
   let metodoContainer = document.querySelector('.gelosia-container');
   let areaMetodo = document.querySelector('.area-gelosia-container');
 
-  objeto.numeroHorizontal = numero1;
-  objeto.numeroVertical = numero2;
-  let vertical = numero2.length;
-  let horizontal = numero1.length;
-
-  if(horizontal === 3){
-    areaMetodo.style.marginLeft = "3%";
-  }
+  objeto.numeroVertical   = numero1;
+  objeto.numeroHorizontal = numero2;
+  let horizontal          = numero2.length;
+  let vertical            = numero1.length;
 
   if(numero1 !== "" && numero2 !== ""){
+
+    areaMetodo.style.marginLeft = vertical + "%";
+
     //Varre as linhas da "tabela"
-    for (let linha = 0; linha < vertical+1; linha++) {
+    for (let linha = 0; linha < horizontal+2; linha++) {
+      //Primeira linha.
       if(linha === 0){
-        //Varre as colunas da "tabela" para a primeira linha.
-        for (let coluna = 0; coluna < horizontal+1; coluna++){
+        metodoGelosiaContainer.appendChild(criaParagrafosProsCantos('',''))
+        for (let coluna = 0; coluna < vertical; coluna++){
           //Preenche com o primeiro número, e coloca vazio na última célula.
-          let p = (coluna < horizontal) ? criaParagrafosProsCantos(numero1[coluna]) : criaParagrafosProsCantos('')
+          p = criaParagrafosProsCantos(numero1[coluna])
           metodoGelosiaContainer.appendChild(p)
         }
-      }else{
+        metodoGelosiaContainer.appendChild(criaParagrafosProsCantos('',''))
+      }
+      //Linhas do meio
+      else if(linha < horizontal + 1){
+        metodoGelosiaContainer.appendChild(criaParagrafosProsCantos('','lateral_' + (linha)))
         //Varre as colunas da "tabela" para as demais linhas.
-        for (let coluna = 0; coluna < horizontal+1; coluna++){
+        for (let coluna = 0; coluna < vertical; coluna++){
           //Cria caixas para a tabela, e insere no último elemento um parágrafo vazio.
-          if(coluna < horizontal){
-            objeto.ids.push('linha_' + linha + '_coluna_' + coluna + '_cima')
-            objeto.ids.push('linha_' + linha + '_coluna_' + coluna + '_baixo')
-          }
-          console.log(objeto)
-          let elemento = (coluna < horizontal) ? criaElementoBox('linha_' + linha + '_coluna_' + coluna, 'linha_' + linha + '_coluna_' + coluna + '_cima', 'linha_' + linha + '_coluna_' + coluna + '_baixo') : criaParagrafosProsCantos(numero2[linha-1])
+          let idDiagCima  = 'linha_' + linha + '_coluna_' + (coluna+1) + '_cima'
+          let idDiagBaixo = 'linha_' + linha + '_coluna_' + (coluna+1) + '_baixo'
+          objeto.ids.push(idDiagCima)
+          objeto.ids.push(idDiagBaixo)
+          let elemento = criaElementoBox('linha_' + linha + '_coluna_' + coluna, idDiagCima, idDiagBaixo)
           metodoGelosiaContainer.appendChild(elemento);
-        } 
+        }
+        metodoGelosiaContainer.appendChild(criaParagrafosProsCantos(numero2[linha-1]))           
+      }
+      //Última linha.
+      else{
+        metodoGelosiaContainer.appendChild(criaParagrafosProsCantos('',''))
+        for (let coluna = 1; coluna < vertical+2; coluna++){
+          metodoGelosiaContainer.appendChild(criaParagrafosProsCantos('','coluna_baixo_'+coluna))
+        }
+        metodoGelosiaContainer.appendChild(criaParagrafosProsCantos('',''))            
       }
     }
-    metodoGelosiaContainer.style.width = retornaTamanhoBoxGelosia(horizontal)
+    metodoGelosiaContainer.style.width = retornaTamanhoBoxGelosia(vertical)
     escondeElementos([inputArea,buttonChoice,metodoContainer])
     revelaFlexElementos([metodoContainer])
     areaMetodo.appendChild(criaControls(objeto.getDigitoNumero(false, 1),objeto.getDigitoNumero(true, 1)));
   }else{
-    alert("Por favor insira 2 números.")
+    alert('preencher')
   }
 }
-
 let criaElementoBox = function(boxId, numberId, numberId2){
     let box = document.createElement("div");
     box.classList.add('gelosia-box');
@@ -141,62 +235,103 @@ let criaElementoBox = function(boxId, numberId, numberId2){
 
     return box;
 }
-
 let retornaTamanhoBoxGelosia = function (horizontal){
   let largura = ''
   if(horizontal === 1){
-    largura = "150px";
+    largura = "230px";//230px
   }else if(horizontal === 2){
-    largura = "230px";
+    largura = "310px";//310px
   }else if(horizontal === 3){
-    largura = "310px";
+    largura = "390px";//390px
   }
   return(largura)
 }
-
 let escondeElementos = function(elementos){
   for (let i = 0; i < elementos.length; i++) {
     elementos[i].style.display = 'none';
   }
 }
-
 let revelaFlexElementos = function(elementos){
   for (let i = 0; i < elementos.length; i++) {
     elementos[i].style.display = 'flex';
   }
 }
-
-let criaParagrafosProsCantos = function(innerHTML){
+let criaParagrafosProsCantos = function(innerHTML,id){
   let p = document.createElement('p')
   p.innerHTML = innerHTML
   p.classList.add('paragrafo_da_caixa')
+  p.id = id
   return(p)
 }
-
 let avanca = function(){
   let input = document.querySelector('.input-num-control')
   let valor = input.value
-  let letra = ''
-  console.log('#' + objeto.ids[objeto.cena], document.querySelector('#' + objeto.ids[objeto.cena]))
-  let primeiroTriangulo = document.querySelector('#span_' + objeto.ids[2*objeto.cena]) 
-  let segundoTriangulo = document.querySelector('#span_' + objeto.ids[2*objeto.cena+1]) 
-  if(valor < 10){
-    letra = '0' + valor;
+  if(objeto.verificaFimDo1Ato()){
+    let letra = ''
+    let primeiroTriangulo = document.querySelector('#span_' + objeto.ids[2*(objeto.cena-1)]) 
+    let segundoTriangulo = document.querySelector('#span_' + objeto.ids[2*(objeto.cena-1)+1]) 
+    if(valor < 10){
+      letra = '0' + valor;
+    }
+    else{
+      letra = valor.toString();
+    }
+    if(objeto.multiplicacaoConformeCena() != valor){
+      alert('Valor está errado')
+      return 0
+    }
+    zeraInput()
+    primeiroTriangulo.innerHTML = letra[0]
+    segundoTriangulo.innerHTML = letra[1]
+    objeto.cena++;
+    if(objeto.verificaFimDo1Ato()){
+      objeto.atualizaSpans();
+    }
+    else{
+      let cenaDoSegundoAto = objeto.cena - objeto.getNumeroDeCelulas()
+      objeto.descoloreTodasAsDiagonais()
+      objeto.descoloreTodasAsDiagonais()
+      objeto.coloreDiagonal(cenaDoSegundoAto)
+      limpaAreaControls()
+      objeto.preencheSpansDiagonal(cenaDoSegundoAto)
+    }
   }
   else{
-    letra = valor.toString();
-  }
-  if(objeto.multiplicacaoConformeCena() != valor){
-    alert('Valor está errado')
-    return 0
-  }
-  zeraInput()
-  primeiroTriangulo.innerHTML = letra[0]
-  segundoTriangulo.innerHTML = letra[1]
-  objeto.cena++;
-  objeto.atualizaSpans();
-}
+    if(objeto.getNumeroDeDiagonais() >= objeto.getCenaDoSegundoAto()){
+      if(objeto.somaDiagonal(objeto.getCenaDoSegundoAto()) != valor){
+        alert('Valor está errado')
+        return 0
+      }
+      if(objeto.getCenaDoSegundoAto() <= objeto.nColunas()){
+        let elemento = document.getElementById('lateral_' + objeto.getCenaDoSegundoAto())
+        elemento.innerHTML = valor
+      }
+      else{
+        let id = objeto.getCenaDoSegundoAto() - objeto.nColunas()
+        let elemento = document.getElementById('coluna_baixo_' + id)
+        elemento.innerHTML = valor
+      }
+      objeto.descoloreTodasAsDiagonais()
+      objeto.cena++
+      if(objeto.getNumeroDeDiagonais() >= objeto.getCenaDoSegundoAto()){
+        limpaAreaControls()
+        objeto.preencheSpansDiagonal(objeto.getCenaDoSegundoAto())
+        objeto.coloreDiagonal(objeto.getCenaDoSegundoAto())
+        zeraInput()
+      }
+      else{
+        zeraInput()
+        limpaAreaControls()
+        alert('ACABOU - VERIFICAR O QUE OCORRE AGORA')
+      }
 
+    }
+    else{
+      console.log('acabou')
+    }
+
+  }
+}
 let atualizaSpan1 = function(e){
   document.querySelector('#controleNum-1').innerHTML = e
 }
@@ -206,7 +341,6 @@ let atualizaSpan2 = function(e){
 let zeraInput = function(){
   document.querySelector('.input-num-control').value = ''
 }
-
 let criaControls = function(numero1, numero2){
   let boxControls = document.createElement("div");
   boxControls.classList.add('box-controls');
@@ -253,7 +387,12 @@ let criaControls = function(numero1, numero2){
   boxControls.appendChild(controlInput);
   boxControls.appendChild(quebraLinha);
   boxControls.appendChild(areaIconControl);
+  objeto.cena++
 
   return boxControls;
+}
+let limpaAreaControls = function(){
+  let controls = document.querySelector('.area-controls')
+  controls.innerHTML = ''
 }
 

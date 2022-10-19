@@ -206,7 +206,7 @@ let dinamicaColunaBaixo = function(valor){
     }, "4500")
   }
   else{
-    let ultimaLinha = document.getElementById('lateral_' + (objeto.nLinhas() + 1))
+    let ultimaLinha = document.getElementById('lateral_' + (objeto.nColunas()))
     colunaAtual.classList.add('marcado')
     ultimaLinha.classList.add('marcado')
     setTimeout(() => {

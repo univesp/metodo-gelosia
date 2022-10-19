@@ -21,136 +21,7 @@ $(document).ready(function(){
 
 })
 
-let objeto = {
-  cena: 0,
-  numeroVertical: 0,
-  numeroHorizontal: 0,
-  ids: [],
-  idsDiagonais: [
-    ['span_linha_1_coluna_1_cima'],
-    ['span_linha_1_coluna_2_cima' ,'span_linha_1_coluna_1_baixo','span_linha_2_coluna_1_cima' ],
-    ['span_linha_1_coluna_3_cima' ,'span_linha_1_coluna_2_baixo','span_linha_2_coluna_2_cima' ,'span_linha_2_coluna_1_baixo','span_linha_3_coluna_1_cima' ],
-    ['span_linha_1_coluna_3_baixo','span_linha_2_coluna_3_cima' ,'span_linha_2_coluna_2_baixo','span_linha_3_coluna_2_cima' ,'span_linha_3_coluna_1_baixo'],
-    ['span_linha_2_coluna_3_baixo','span_linha_3_coluna_3_cima' ,'span_linha_3_coluna_2_baixo'],
-    ['span_linha_3_coluna_3_baixo'],  
-  ],
-  somaDiagonal : function(n){
-    let soma = 0
-    for (let i = 0; i < this.idsDiagonais[n-1].length; i++) {
-      let id = this.idsDiagonais[n-1][i];
-      let elemento = document.getElementById(id)
-      if(document.body.contains(elemento)){
-        soma += parseInt(elemento.innerHTML)
-      }
-    }
-    return(soma)
-  },
-  coloreDiagonal : function(n){
-    for (let i = 0; i < this.idsDiagonais[n-1].length; i++) {
-      let id = this.idsDiagonais[n-1][i];
-      let elemento = document.getElementById(id)
-      if(document.body.contains(elemento)){
-        elemento.style.backgroundColor = 'red'
-      }
-    }
-  },
-  descoloreTodasAsDiagonais : function(){
-    for (let i = 0; i < 6; i++) {
-      let diagonal = this.idsDiagonais[i];
-      for (let j = 0; j < diagonal.length; j++) {
-        let id = diagonal[j];
-        let elemento = document.getElementById(id)
-        if(document.body.contains(elemento)){
-          elemento.style.backgroundColor = 'white'
-        }
-      }
-    }
-  },
-  preencheSpansDiagonal : function(n){
-    let areaControls = document.querySelector('.area-controls')
-    for (let i = 0; i < this.idsDiagonais[n-1].length; i++) {
-      let id = this.idsDiagonais[n-1][i];
-      let elemento = document.getElementById(id)
-      if(document.body.contains(elemento)){
-        let valor = elemento.innerHTML;
-        let span = document.createElement('span')
-        span.innerHTML = valor
-        span.classList.add('controleNum')
-        areaControls.appendChild(span)
-        let simboloMais = document.createElement('span')
-        simboloMais.classList.add('controleMult')
-        simboloMais.innerHTML = '+'
-        areaControls.appendChild(simboloMais)
-      }
-    }
-    areaControls.removeChild(areaControls.lastElementChild);
-  },
-  getDigitoNumero : function(vertical, digito){
-    let number = ''
-    if(vertical)
-      number = this.numeroHorizontal.toString()
-    else
-      number = this.numeroVertical.toString()
-    return(number[digito-1])
-  },
-  multiplicacaoConformeCena : function(){
-    let linha = this.nQualLinhaEstou()
-    let coluna = this.nQualColunaEstou()
-    let valor1 = parseInt(this.numeroHorizontal.toString()[linha-1])
-    let valor2 = parseInt(this.numeroVertical.toString()[coluna-1])
-    return(valor1*valor2)
-  },
-  atualizaSpans: function(){
-    let qualLinhaEstou  = this.nQualLinhaEstou()
-    let qualColunaEstou = this.nQualColunaEstou()
-    atualizaSpan1(parseInt(this.numeroVertical.toString()[qualColunaEstou-1]))
-    atualizaSpan2(parseInt(this.numeroHorizontal.toString()[qualLinhaEstou-1]))
-  },
-  verificaFimDo1Ato: function(){
-    return ((this.cena-1) < this.getNumeroDeCelulas())
-  },
-  getNumeroDeCelulas: function(){
-    let digitoHorizontal = this.numeroVertical.toString().length
-    let digitoVertical = this.numeroHorizontal.toString().length
-    return(digitoHorizontal*digitoVertical)
-  },
-  getNumeroDeDiagonais: function(){
-    let linha  = this.numeroVertical.toString().length
-    let coluna = this.numeroHorizontal.toString().length
-    let nDiagonais = 0
-    nDiagonais = linha == coluna ? 2*linha : Math.max(linha,coluna)+1
-    return(nDiagonais)
-  },
-  nLinhas: function(){
-    return(this.numeroVertical.toString().length)
-  },
-  nColunas: function(){
-    return(this.numeroHorizontal.toString().length)
-  },
-  nQualColunaEstou: function(){
-    let coluna = 0
-    if(this.cena % this.numeroVertical.toString().length == 0){
-      coluna = this.numeroVertical.toString().length
-    }
-    else{
-      coluna = this.cena % this.numeroVertical.toString().length
-    } 
-    return(coluna)
-  },
-  nQualLinhaEstou: function(){
-    let linha = 0
-    if(this.cena % this.numeroVertical.toString().length == 0){
-      linha = this.cena / this.numeroVertical.toString().length
-    }
-    else{
-      linha = Math.ceil(this.cena/this.numeroVertical.toString().length)
-    }
-    return(linha) 
-  },
-  getCenaDoSegundoAto : function(){
-    return(this.cena - this.getNumeroDeCelulas())
-  }
-}
+
 function escolherNumeros(){
   let numero1 = document.querySelector('#num1').value;
   let numero2 = document.querySelector('#num2').value; 
@@ -176,14 +47,18 @@ function escolherNumeros(){
         metodoGelosiaContainer.appendChild(criaParagrafosProsCantos('',''))
         for (let coluna = 0; coluna < vertical; coluna++){
           //Preenche com o primeiro número, e coloca vazio na última célula.
-          p = criaParagrafosProsCantos(numero1[coluna])
+          p = criaParagrafosProsCantos(numero1[coluna], 'resultado_cima_' + (coluna + 1))
+          if(coluna == 0){
+            p.classList.add('marcado')
+          }
           metodoGelosiaContainer.appendChild(p)
         }
         metodoGelosiaContainer.appendChild(criaParagrafosProsCantos('',''))
       }
       //Linhas do meio
       else if(linha < horizontal + 1){
-        metodoGelosiaContainer.appendChild(criaParagrafosProsCantos('','lateral_' + (linha)))
+        let lateral = criaParagrafosProsCantos('','lateral_' + (linha))
+        metodoGelosiaContainer.appendChild(lateral)
         //Varre as colunas da "tabela" para as demais linhas.
         for (let coluna = 0; coluna < vertical; coluna++){
           //Cria caixas para a tabela, e insere no último elemento um parágrafo vazio.
@@ -204,7 +79,11 @@ function escolherNumeros(){
           elemento.appendChild(fundoBaixo);
           metodoGelosiaContainer.appendChild(elemento);
         }
-        metodoGelosiaContainer.appendChild(criaParagrafosProsCantos(numero2[linha-1]))           
+        let ultimo = criaParagrafosProsCantos(numero2[linha-1], 'resultado_direita_' + (linha))
+        if(linha == 1){
+          ultimo.classList.add('marcado')
+        }
+        metodoGelosiaContainer.appendChild(ultimo)           
       }
       //Última linha.
       else{
@@ -273,73 +152,75 @@ let criaParagrafosProsCantos = function(innerHTML,id){
   p.id = id
   return(p)
 }
-let avanca = function(){
-  let input = document.querySelector('.input-num-control')
-  let valor = input.value
-  if(objeto.verificaFimDo1Ato()){
-    let letra = ''
-    let primeiroTriangulo = document.querySelector('#span_' + objeto.ids[2*(objeto.cena-1)]) 
-    let segundoTriangulo = document.querySelector('#span_' + objeto.ids[2*(objeto.cena-1)+1]) 
-    if(valor < 10){
-      letra = '0' + valor;
-    }
-    else{
-      letra = valor.toString();
-    }
-    if(objeto.multiplicacaoConformeCena() != valor){
-      alert('Valor está errado')
-      return 0
-    }
-    zeraInput()
-    primeiroTriangulo.innerHTML = letra[0]
-    segundoTriangulo.innerHTML = letra[1]
-    objeto.cena++;
-    if(objeto.verificaFimDo1Ato()){
-      objeto.atualizaSpans();
-    }
-    else{
-      let cenaDoSegundoAto = objeto.cena - objeto.getNumeroDeCelulas()
-      objeto.descoloreTodasAsDiagonais()
-      objeto.descoloreTodasAsDiagonais()
-      objeto.coloreDiagonal(cenaDoSegundoAto)
-      limpaAreaControls()
-      objeto.preencheSpansDiagonal(cenaDoSegundoAto)
-    }
+let dinamicaLateral = function(valor){
+    let resto  = valor % 10
+    let dezena = Math.floor(valor/10)
+    let anterior = objeto.getCenaDoSegundoAto() - 1
+    let atual = objeto.getCenaDoSegundoAto()
+    let lateralAnt   = document.getElementById('lateral_' + anterior)
+    let lateralAtual = document.getElementById('lateral_' + atual)
+    let somaString = lateralAnt.innerHTML + "+" + dezena.toString()
+    let somaNum = 0
+    lateralAnt.classList.add('marcado')
+    lateralAtual.classList.add('marcado')
+    let lateralAntAnt = document.getElementById('lateral_' + (anterior - 1))
+    setTimeout(() => {
+      lateralAnt.innerHTML  = somaString
+      somaNum = parseInt(lateralAnt.innerHTML[0]) + parseInt(lateralAnt.innerHTML[2])
+    }, "1500")
+    setTimeout(() => {
+      lateralAnt.innerHTML  = somaNum
+    }, "3000")
+    setTimeout(() => {
+      lateralAtual.innerHTML = resto
+      // revelaAvanca()
+      // revelaInput()
+      removeAllMarcados()
+    }, "4500")
+}
+let dinamicaColunaBaixo = function(valor){
+  let resto  = valor % 10
+  let dezena = Math.floor(valor/10)
+  let anterior = objeto.getCenaDoSegundoAto() - objeto.nColunas() - 1
+  let atual = objeto.getCenaDoSegundoAto() - objeto.nColunas()
+  let colunaAtual = document.getElementById('coluna_baixo_' + atual)
+
+  if(atual > 1){
+    let colunaAnterior = document.getElementById('coluna_baixo_' + anterior)
+    
+    colunaAnterior.classList.add('marcado')
+    colunaAtual.classList.add('marcado')
+    setTimeout(() => {
+      let somaString = colunaAnterior.innerHTML + "+" + dezena.toString()
+      colunaAnterior.innerHTML = somaString
+    }, "1500")
+    setTimeout(() => {
+      let somaNum = parseInt(colunaAnterior.innerHTML[0]) + parseInt(colunaAnterior.innerHTML[2])
+      colunaAnterior.innerHTML = somaNum
+    }, "3000")
+    setTimeout(() => {
+      colunaAtual.innerHTML = resto
+      // revelaAvanca()
+      // revelaInput()
+      removeAllMarcados()
+    }, "4500")
   }
   else{
-    if(objeto.getNumeroDeDiagonais() >= objeto.getCenaDoSegundoAto()){
-      if(objeto.somaDiagonal(objeto.getCenaDoSegundoAto()) != valor){
-        alert('Valor está errado')
-        return 0
-      }
-      if(objeto.getCenaDoSegundoAto() <= objeto.nColunas()){
-        let elemento = document.getElementById('lateral_' + objeto.getCenaDoSegundoAto())
-        elemento.innerHTML = valor
-      }
-      else{
-        let id = objeto.getCenaDoSegundoAto() - objeto.nColunas()
-        let elemento = document.getElementById('coluna_baixo_' + id)
-        elemento.innerHTML = valor
-      }
-      objeto.descoloreTodasAsDiagonais()
-      objeto.cena++
-      if(objeto.getNumeroDeDiagonais() >= objeto.getCenaDoSegundoAto()){
-        limpaAreaControls()
-        objeto.preencheSpansDiagonal(objeto.getCenaDoSegundoAto())
-        objeto.coloreDiagonal(objeto.getCenaDoSegundoAto())
-        zeraInput()
-      }
-      else{
-        zeraInput()
-        limpaAreaControls()
-        alert('ACABOU - VERIFICAR O QUE OCORRE AGORA')
-      }
-
-    }
-    else{
-      console.log('acabou')
-    }
-
+    let ultimaLinha = document.getElementById('lateral_' + objeto.nLinhas())
+    colunaAtual.classList.add('marcado')
+    ultimaLinha.classList.add('marcado')
+    setTimeout(() => {
+      ultimaLinha.innerHTML = ultimaLinha.innerHTML + "+" + dezena.toString()
+    }, "1500")
+    setTimeout(() => {
+      ultimaLinha.innerHTML = parseInt(ultimaLinha.innerHTML[0]) + parseInt(ultimaLinha.innerHTML[2])
+    }, "3000")
+    setTimeout(() => {
+      colunaAtual.innerHTML = resto
+      removeAllMarcados()
+      // revelaAvanca()
+      // revelaInput()
+    }, "4500")
   }
 }
 let atualizaSpan1 = function(e){
@@ -377,6 +258,8 @@ let criaControls = function(numero1, numero2){
   areaControls.appendChild(spanNum2);
 
   let controlInput = document.createElement("input");
+  controlInput.autocomplete = 'off'
+  controlInput.id = 'controlInput'
   controlInput.classList.add('input-num-control');
   controlInput.setAttribute('type', 'text');
   controlInput.setAttribute('maxlength', '2');
@@ -385,6 +268,7 @@ let criaControls = function(numero1, numero2){
   let areaIconControl = document.createElement("span");
 
   let iconControl = document.createElement("i");
+  iconControl.id = 'btnAvanca'
   iconControl.addEventListener('click', avanca)
   iconControl.classList.add('fa');
   iconControl.classList.add('fa-angle-right');
@@ -405,4 +289,31 @@ let limpaAreaControls = function(){
   let controls = document.querySelector('.area-controls')
   controls.innerHTML = ''
 }
-
+let removeAllMarcados = function(){
+  let marcados = document.querySelectorAll('.marcado')
+  let marcadosCopy = [...marcados];
+  marcadosCopy.forEach(element => {
+    element.classList.remove('marcado')
+  });
+}
+let marcadoTimeOut = function(elemento, tempo){
+  setTimeout(() => {
+    elemento.classList.add('marcado')
+  }, tempo)
+}
+let escondeAvanca = function(){
+  let btn = document.querySelector('#btnAvanca')
+  btn.style.display = 'none'
+}
+let revelaAvanca = function(){
+  let btn = document.querySelector('#btnAvanca')
+  btn.style.display = 'flex'
+}
+let escondeInput = function(){
+  let input = document.querySelector('#numControl')
+  input.style.display = 'none'
+}
+let revelaInput = function(){
+  let input = document.querySelector('#numControl')
+  input.style.display = 'flex'
+}

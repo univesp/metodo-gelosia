@@ -378,6 +378,26 @@ hr{
   display: none;
  }
 
+ .botao-new{
+  outline: none;
+  border: 0;
+  background-color: #FF9600;
+  color: #fff;
+  font-weight: bold;
+  font-family: 'Dosis', sans-serif;
+  padding: 10px;
+  font-size: 18px;
+  margin-top: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+ }
+ .botao-new:focus{
+  outline: none;
+ }
+ .botao-new:hover{
+  background-color: rgba(255, 150, 0, .9);
+ }
+
 @media (min-width: 0px) and (max-width: 400px){
   .primeiro-conteudo span:nth-child(1){
     font-size: .6em;

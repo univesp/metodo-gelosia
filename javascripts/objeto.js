@@ -176,6 +176,19 @@ let objeto = {
       return(this.cena - this.getNumeroDeCelulas())
     },
     finaliza : function(){
+      let controls = document.querySelector('.box-controls');
+      controls.style.display = 'none';
+
+      let numero1 = document.querySelector('#num1').value;
+      let numero2 = document.querySelector('#num2').value; 
+      let resultado = numero1 * numero2;
+      let areaMetodo = document.querySelector('.area-gelosia-container');
+      let fraseResultado = fraseFinal(numero1, numero2, resultado);
+
+      areaMetodo.appendChild(fraseResultado);
+
+      setTimeout(() => {areaMetodo.appendChild(botaoNew())}, 1000);
+
       escondeAvanca()
       escondeInput()
       let linhas = this.nLinhas();
@@ -198,4 +211,24 @@ let objeto = {
         delay += 500
       });
     }
+  }
+
+  function refresh(){
+    document.location.reload(true);
+  }
+
+  let fraseFinal = function(num1, num2, resultado){
+    let texto = document.createElement('p');
+    texto.innerHTML = `Parabéns! Você conseguiu achar o resultado da multiplicação de ${num1} x ${num2} = ${resultado} através do método Gelosia!`;
+
+    return texto;
+  }
+
+  let botaoNew = function(){
+    let botao = document.createElement('button');
+    botao.classList.add('botao-new');
+    botao.setAttribute('onclick', 'refresh()');
+    botao.innerHTML = 'Fazer novamente';
+
+    return botao;
   }

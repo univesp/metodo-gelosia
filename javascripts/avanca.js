@@ -53,7 +53,7 @@ let avanca = function(){
             escondeAvanca()
             escondeInput()
             dinamicaLateral(valor)
-            time = "6000"
+            time = "7000"
           }
           else{
             revelaAvanca()
@@ -72,7 +72,7 @@ let avanca = function(){
             escondeAvanca()
             escondeInput()
             dinamicaColunaBaixo(valor)
-            time = "4500"
+            time = "7000"
           }
           else{
             revelaAvanca()
@@ -108,7 +108,6 @@ let avanca = function(){
         }
       }
       else{
-        console.log('acabou')
       }
     }
   }

@@ -163,20 +163,20 @@ let dinamicaLateral = function(valor){
     let somaNum = 0
     lateralAnt.classList.add('marcado')
     lateralAtual.classList.add('marcado')
-    let lateralAntAnt = document.getElementById('lateral_' + (anterior - 1))
+    // let lateralAntAnt = document.getElementById('lateral_' + (anterior - 1))
+    setTimeout(() => {
+      lateralAtual.innerHTML = resto
+    }, "1500")
     setTimeout(() => {
       lateralAnt.innerHTML  = somaString
       somaNum = parseInt(lateralAnt.innerHTML[0]) + parseInt(lateralAnt.innerHTML[2])
-    }, "1500")
-    setTimeout(() => {
-      lateralAnt.innerHTML  = somaNum
     }, "3000")
     setTimeout(() => {
-      lateralAtual.innerHTML = resto
-      // revelaAvanca()
-      // revelaInput()
-      removeAllMarcados()
+      lateralAnt.innerHTML  = somaNum
     }, "4500")
+    setTimeout(() => {
+      removeAllMarcados()
+    }, "6000")
 }
 let dinamicaColunaBaixo = function(valor){
   let resto  = valor % 10
@@ -191,36 +191,37 @@ let dinamicaColunaBaixo = function(valor){
     colunaAnterior.classList.add('marcado')
     colunaAtual.classList.add('marcado')
     setTimeout(() => {
-      let somaString = colunaAnterior.innerHTML + "+" + dezena.toString()
-      colunaAnterior.innerHTML = somaString
+      colunaAtual.innerHTML = resto
     }, "1500")
     setTimeout(() => {
-      let somaNum = parseInt(colunaAnterior.innerHTML[0]) + parseInt(colunaAnterior.innerHTML[2])
-      colunaAnterior.innerHTML = somaNum
+      let somaString = colunaAnterior.innerHTML + "+" + dezena.toString()
+      colunaAnterior.innerHTML = somaString
     }, "3000")
     setTimeout(() => {
-      colunaAtual.innerHTML = resto
-      // revelaAvanca()
-      // revelaInput()
-      removeAllMarcados()
+      let somaNum = parseInt(colunaAnterior.innerHTML[0]) + parseInt(colunaAnterior.innerHTML[2])
+      colunaAnterior.innerHTML = somaNum  
     }, "4500")
+    setTimeout(() => {
+      removeAllMarcados()
+    }, "6000")
   }
   else{
     let ultimaLinha = document.getElementById('lateral_' + (objeto.nColunas()))
     colunaAtual.classList.add('marcado')
     ultimaLinha.classList.add('marcado')
     setTimeout(() => {
-      ultimaLinha.innerHTML = ultimaLinha.innerHTML + "+" + dezena.toString()
+      colunaAtual.innerHTML = resto
     }, "1500")
     setTimeout(() => {
-      ultimaLinha.innerHTML = parseInt(ultimaLinha.innerHTML[0]) + parseInt(ultimaLinha.innerHTML[2])
+      ultimaLinha.innerHTML = ultimaLinha.innerHTML + "+" + dezena.toString()
     }, "3000")
     setTimeout(() => {
-      colunaAtual.innerHTML = resto
+      ultimaLinha.innerHTML = parseInt(ultimaLinha.innerHTML[0]) + parseInt(ultimaLinha.innerHTML[2])
       removeAllMarcados()
-      // revelaAvanca()
-      // revelaInput()
     }, "4500")
+    setTimeout(() => {
+      removeAllMarcados()
+    }, "6000")
   }
 }
 let atualizaSpan1 = function(e){
@@ -264,7 +265,7 @@ let criaControls = function(numero1, numero2){
   controlInput.setAttribute('type', 'text');
   controlInput.setAttribute('maxlength', '2');
   controlInput.setAttribute('id', 'numControl');
-
+  controlInput.addEventListener('keypress', enterBtn)
   let areaIconControl = document.createElement("span");
 
   let iconControl = document.createElement("i");
@@ -316,4 +317,25 @@ let escondeInput = function(){
 let revelaInput = function(){
   let input = document.querySelector('#numControl')
   input.style.display = 'flex'
+}
+let enterBtn = function(){
+  if (event.keyCode === 13) {
+    avanca()  
+  }
+}
+let refresh = function(){
+  document.location.reload(true);
+}
+let fraseFinal = function(num1, num2, resultado){
+  let texto = document.createElement('p');
+  texto.innerHTML = `Parabéns! Você conseguiu achar o resultado da multiplicação de ${num1} x ${num2} = ${resultado} através do método Gelosia!`;
+  return texto;
+}
+
+let botaoNew = function(){
+  let botao = document.createElement('button');
+  botao.classList.add('botao-new');
+  botao.setAttribute('onclick', 'refresh()');
+  botao.innerHTML = 'Fazer novamente';
+  return botao;
 }

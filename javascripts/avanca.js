@@ -1,6 +1,7 @@
 let avanca = function(){
     let input = document.querySelector('.input-num-control')
-    let valor = input.value
+    let valor = parseInt(input.value)
+    let time = 0
     //Primeiro ato
     if(objeto.verificaFimDo1Ato()){
       let letra = ''
@@ -24,11 +25,12 @@ let avanca = function(){
         objeto.atualizaSpans();
       }
       else{
-        let cenaDoSegundoAto = objeto.cena - objeto.getNumeroDeCelulas()
+        //let cenaDoSegundoAto = objeto.cena - objeto.getNumeroDeCelulas()
+        let cenaDoSegundoAtoNovo =  7 - (objeto.nLinhas() + objeto.nColunas())
         objeto.descoloreTodasAsDiagonais()
-        objeto.coloreDiagonal(cenaDoSegundoAto)
+        objeto.coloreDiagonal(cenaDoSegundoAtoNovo)
         limpaAreaControls()
-        objeto.preencheSpansDiagonal(cenaDoSegundoAto)
+        objeto.preencheSpansDiagonal(cenaDoSegundoAtoNovo)
       }
       removeAllMarcados()
       if(objeto.verificaFimDo1Ato()){
@@ -40,45 +42,92 @@ let avanca = function(){
       revelaAvanca()
       revelaInput()
       if(objeto.getNumeroDeDiagonais() >= objeto.getCenaDoSegundoAto()){
-        let time = "0"
-        if(objeto.somaDiagonal(objeto.getCenaDoSegundoAto()) != valor){
+        if(objeto.somaDiagonal(objeto.getCenaDoSegundoAtoCorrigida()) != valor){
           alert('Valor está errado')
           return 0
         }
-        //dinâmica das laterais
-        if(objeto.getCenaDoSegundoAto() <= objeto.nColunas()){
-          let elemento = document.getElementById('lateral_' + objeto.getCenaDoSegundoAto())
-          elemento.innerHTML = valor
+        //dinâmica da parte de baixo
+        if(objeto.getCenaDoSegundoAto() <= objeto.nLinhas()){
+          let id = objeto.nLinhas()+1-objeto.getCenaDoSegundoAto()
+          let elemento = document.getElementById('coluna_baixo_' + id)
+          let teveResiduo = false
+          if(elemento.innerHTML != ""){
+            let residuo = parseInt(elemento.innerHTML)
+            elemento.classList.add('marcado')
+            let valorGuardado = valor
+            setTimeout(() => {
+              elemento.innerHTML = valorGuardado + "+" + residuo
+            }, time)
+
+            time = time + 1500
+
+            setTimeout(() => {
+              elemento.innerHTML = (valorGuardado + residuo).toString()
+            }, time)
+
+            time = time + 1500
+
+            valor = valor + residuo
+            teveResiduo = true
+          }
+          if(!teveResiduo){
+            elemento.innerHTML = valor
+          }
           if(valor >= 10){
             escondeAvanca()
             escondeInput()
-            dinamicaLateral(valor)
-            time = "7000"
+            time = time + 1500
+            time = dinamicaColunaBaixo(valor, time)
+            time = time + 1000
           }
           else{
             revelaAvanca()
             revelaInput()
             elemento.innerHTML = valor
-            time = "0"
+            time = 0
           }
-  
+
         }
         //dinâmica das colunas na parte de baixo
         else{
-          let id = objeto.getCenaDoSegundoAto() - objeto.nColunas()
-          let elemento = document.getElementById('coluna_baixo_' + id)
+          let id = objeto.nLinhas() - (objeto.getCenaDoSegundoAto() - objeto.nColunas() - 1)
+          let elemento = document.getElementById('lateral_' + id)
+          let teveResiduo = false
+          if(elemento.innerHTML != ""){
+            let residuo = parseInt(elemento.innerHTML)
+            elemento.classList.add('marcado')
+            let valorGuardado = valor
+            setTimeout(() => {
+              elemento.innerHTML = valorGuardado + "+" + residuo
+            }, time)
+
+            time = time + 1500
+
+            setTimeout(() => {
+              elemento.innerHTML = (valorGuardado + residuo).toString()
+            }, time)
+
+            time = time + 1500
+
+            valor = valor + residuo
+            teveResiduo = true
+          }
+          if(!teveResiduo){
+            elemento.innerHTML = valor
+          }
           elemento.innerHTML = valor
           if(valor >= 10){
             escondeAvanca()
             escondeInput()
-            dinamicaColunaBaixo(valor)
-            time = "7000"
+            time = time + 1500
+            time = dinamicaLateral(valor, time)
+            time = time + 1000
           }
           else{
             revelaAvanca()
             revelaInput()
             elemento.innerHTML = valor
-            time = "0"
+            time = 0
           }
         }
         setTimeout(() => {
@@ -86,13 +135,14 @@ let avanca = function(){
           revelaAvanca()
           revelaInput()
         }, time)
+        //Atualização da cena.
         objeto.cena++
         
         if(objeto.getNumeroDeDiagonais() >= objeto.getCenaDoSegundoAto()){
           limpaAreaControls()
           setTimeout(() => {
-            objeto.preencheSpansDiagonal(objeto.getCenaDoSegundoAto())
-            objeto.coloreDiagonal(objeto.getCenaDoSegundoAto())
+            objeto.preencheSpansDiagonal(objeto.getCenaDoSegundoAtoCorrigida())
+            objeto.coloreDiagonal(objeto.getCenaDoSegundoAtoCorrigida())
             zeraInput()
             revelaAvanca()
             revelaInput()
@@ -104,10 +154,13 @@ let avanca = function(){
           objeto.descoloreTodasAsDiagonais()
           objeto.escondeTodosOsTriangulosDiagonais()
           objeto.voltaDiagonaisCorPreta()
-          objeto.finaliza()
+          time = time + 1000
+          setTimeout(() => {
+            objeto.finaliza()
+          }, time)
         }
       }
       else{
       }
     }
-  }
+}

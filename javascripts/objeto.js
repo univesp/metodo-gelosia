@@ -11,6 +11,14 @@ let objeto = {
       ['span_linha_2_coluna_3_baixo','span_linha_3_coluna_3_cima' ,'span_linha_3_coluna_2_baixo'],
       ['span_linha_3_coluna_3_baixo'],  
     ],
+    idsDiagonaisNova: [
+      ['span_linha_3_coluna_3_baixo'],
+      ['span_linha_2_coluna_3_baixo','span_linha_3_coluna_3_cima' ,'span_linha_3_coluna_2_baixo'], 
+      ['span_linha_1_coluna_3_baixo','span_linha_2_coluna_3_cima' ,'span_linha_2_coluna_2_baixo','span_linha_3_coluna_2_cima' ,'span_linha_3_coluna_1_baixo'],
+      ['span_linha_1_coluna_3_cima' ,'span_linha_1_coluna_2_baixo','span_linha_2_coluna_2_cima' ,'span_linha_2_coluna_1_baixo','span_linha_3_coluna_1_cima' ],
+      ['span_linha_1_coluna_2_cima' ,'span_linha_1_coluna_1_baixo','span_linha_2_coluna_1_cima' ],
+      ['span_linha_1_coluna_1_cima'],
+    ],
     idsDiagonaisCimaBaixo:[
       ['linha_1_coluna_1_cimaFundo'],
       ['linha_1_coluna_2_cimaFundo','linha_1_coluna_1_baixoFundo','linha_2_coluna_1_cimaFundo'],
@@ -19,10 +27,18 @@ let objeto = {
       ['linha_2_coluna_3_baixoFundo','linha_3_coluna_3_cimaFundo','linha_3_coluna_2_baixoFundo'],
       ['linha_3_coluna_3_baixoFundo']
     ],
+    idsDiagonaisCimaBaixoNova:[
+      ['linha_3_coluna_3_baixoFundo'],
+      ['linha_2_coluna_3_baixoFundo','linha_3_coluna_3_cimaFundo','linha_3_coluna_2_baixoFundo'],
+      ['linha_1_coluna_3_baixoFundo','linha_2_coluna_3_cimaFundo','linha_2_coluna_2_baixoFundo','linha_3_coluna_2_cimaFundo','linha_3_coluna_1_baixoFundo','linha_3_coluna_1_baixoFundo'],
+      ['linha_1_coluna_3_cimaFundo','linha_1_coluna_2_baixoFundo','linha_2_coluna_2_cimaFundo','linha_2_coluna_1_baixoFundo','linha_3_coluna_1_cimaFundo'],
+      ['linha_1_coluna_2_cimaFundo','linha_1_coluna_1_baixoFundo','linha_2_coluna_1_cimaFundo'],
+      ['linha_1_coluna_1_cimaFundo'],
+    ],
     somaDiagonal : function(n){
       let soma = 0
-      for (let i = 0; i < this.idsDiagonais[n-1].length; i++) {
-        let id = this.idsDiagonais[n-1][i];
+      for (let i = 0; i < this.idsDiagonaisNova[n-1].length; i++) {
+        let id = this.idsDiagonaisNova[n-1][i];
         let elemento = document.getElementById(id)
         if(document.body.contains(elemento)){
           soma += parseInt(elemento.innerHTML)
@@ -33,15 +49,15 @@ let objeto = {
     coloreDiagonal : function(n){
       this.voltaDiagonaisCorPreta()
       this.escondeTodosOsTriangulosDiagonais()
-      for (let i = 0; i < this.idsDiagonaisCimaBaixo[n-1].length; i++) {
-        let id = this.idsDiagonaisCimaBaixo[n-1][i];
+      for (let i = 0; i < this.idsDiagonaisCimaBaixoNova[n-1].length; i++) {
+        let id = this.idsDiagonaisCimaBaixoNova[n-1][i];
         let elemento = document.getElementById(id)
         if(document.body.contains(elemento)){
           elemento.style.display = 'flex'
         }
       }
-      for (let i = 0; i < this.idsDiagonais[n-1].length; i++) {
-        let id = this.idsDiagonais[n-1][i];
+      for (let i = 0; i < this.idsDiagonaisNova[n-1].length; i++) {
+        let id = this.idsDiagonaisNova[n-1][i];
         let elemento = document.getElementById(id)      
         if(document.body.contains(elemento)){
           elemento.style.backgroundColor = '#FF9600'
@@ -51,7 +67,7 @@ let objeto = {
     },
     voltaDiagonaisCorPreta : function(){
       for (let i = 0; i < 6; i++) {
-        let diagonal = this.idsDiagonais[i];
+        let diagonal = this.idsDiagonaisNova[i];
         for (let j = 0; j < diagonal.length; j++) {
           let id = diagonal[j];
           let elemento = document.getElementById(id)
@@ -75,7 +91,7 @@ let objeto = {
     },
     escondeTodosOsTriangulosDiagonais: function(){
       for (let i = 0; i < 6; i++) {
-        let diagonal = this.idsDiagonaisCimaBaixo[i];
+        let diagonal = this.idsDiagonaisCimaBaixoNova[i];
         for (let j = 0; j < diagonal.length; j++) {
           let id = diagonal[j];
           let elemento = document.getElementById(id)
@@ -87,8 +103,8 @@ let objeto = {
     },
     preencheSpansDiagonal : function(n){
       let areaControls = document.querySelector('.area-controls')
-      for (let i = 0; i < this.idsDiagonais[n-1].length; i++) {
-        let id = this.idsDiagonais[n-1][i];
+      for (let i = 0; i < this.idsDiagonaisNova[n-1].length; i++) {
+        let id = this.idsDiagonaisNova[n-1][i];
         let elemento = document.getElementById(id)
         if(document.body.contains(elemento)){
           let valor = elemento.innerHTML;
@@ -174,6 +190,10 @@ let objeto = {
     },
     getCenaDoSegundoAto : function(){
       return(this.cena - this.getNumeroDeCelulas())
+      //return(7 - (objeto.nLinhas() + objeto.nColunas()) + this.cena)
+    },
+    getCenaDoSegundoAtoCorrigida : function(){
+      return(this.getCenaDoSegundoAto() + 6 -this.nLinhas() -this.nColunas())
     },
     finaliza : function(){
       let controls = document.querySelector('.box-controls');

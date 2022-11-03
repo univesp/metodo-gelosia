@@ -21,8 +21,7 @@ $(document).ready(function(){
 
 })
 
-
-function escolherNumeros(){
+let escolherNumeros = function(){
   let numero1 = document.querySelector('#num1').value;
   let numero2 = document.querySelector('#num2').value; 
   let metodoGelosiaContainer = document.querySelector('.gelosia-container');
@@ -152,77 +151,72 @@ let criaParagrafosProsCantos = function(innerHTML,id){
   p.id = id
   return(p)
 }
-let dinamicaLateral = function(valor){
+let dinamicaLateral = function(valor, time){
     let resto  = valor % 10
     let dezena = Math.floor(valor/10)
-    let anterior = objeto.getCenaDoSegundoAto() - 1
-    let atual = objeto.getCenaDoSegundoAto()
-    let lateralAnt   = document.getElementById('lateral_' + anterior)
+    let atual = objeto.nLinhas() - (objeto.getCenaDoSegundoAto() - objeto.nColunas() - 1)
+    let lateralAnt   = document.getElementById('lateral_' + (atual-1))
     let lateralAtual = document.getElementById('lateral_' + atual)
-    let somaString = lateralAnt.innerHTML + "+" + dezena.toString()
-    let somaNum = 0
+
     lateralAnt.classList.add('marcado')
     lateralAtual.classList.add('marcado')
-    // let lateralAntAnt = document.getElementById('lateral_' + (anterior - 1))
+
     setTimeout(() => {
       lateralAtual.innerHTML = resto
-    }, "1500")
+    }, time)
+    time = time + 1500
     setTimeout(() => {
-      lateralAnt.innerHTML  = somaString
-      somaNum = parseInt(lateralAnt.innerHTML[0]) + parseInt(lateralAnt.innerHTML[2])
-    }, "3000")
-    setTimeout(() => {
-      lateralAnt.innerHTML  = somaNum
-    }, "4500")
+      lateralAnt.innerHTML  = dezena
+    }, time)
+    time = time + 1500
     setTimeout(() => {
       removeAllMarcados()
-    }, "6000")
+    }, time)
+    return(time)
 }
-let dinamicaColunaBaixo = function(valor){
+let dinamicaColunaBaixo = function(valor, time){
   let resto  = valor % 10
   let dezena = Math.floor(valor/10)
-  let anterior = objeto.getCenaDoSegundoAto() - objeto.nColunas() - 1
-  let atual = objeto.getCenaDoSegundoAto() - objeto.nColunas()
+  let atual = objeto.nLinhas() + 1 - objeto.getCenaDoSegundoAto()
   let colunaAtual = document.getElementById('coluna_baixo_' + atual)
+  let colunaAnterior = document.getElementById('coluna_baixo_' + (atual-1))
 
-  if(atual > 1){
-    let colunaAnterior = document.getElementById('coluna_baixo_' + anterior)
-    
+  //Parte de baixo normal
+  if(objeto.getCenaDoSegundoAto() < objeto.nLinhas()){
+  
     colunaAnterior.classList.add('marcado')
     colunaAtual.classList.add('marcado')
     setTimeout(() => {
       colunaAtual.innerHTML = resto
-    }, "1500")
+    }, time)
+    time = time + 1500
     setTimeout(() => {
-      let somaString = colunaAnterior.innerHTML + "+" + dezena.toString()
-      colunaAnterior.innerHTML = somaString
-    }, "3000")
-    setTimeout(() => {
-      let somaNum = parseInt(colunaAnterior.innerHTML[0]) + parseInt(colunaAnterior.innerHTML[2])
-      colunaAnterior.innerHTML = somaNum  
-    }, "4500")
+      colunaAnterior.innerHTML = dezena
+    }, time)
+    time = time + 1500
     setTimeout(() => {
       removeAllMarcados()
-    }, "6000")
+    }, time)
   }
+  //Intermediária entre parte de baixo e parte lateral.
   else{
     let ultimaLinha = document.getElementById('lateral_' + (objeto.nColunas()))
     colunaAtual.classList.add('marcado')
     ultimaLinha.classList.add('marcado')
     setTimeout(() => {
       colunaAtual.innerHTML = resto
-    }, "1500")
+    }, time)
+    time = time + 1500
     setTimeout(() => {
-      ultimaLinha.innerHTML = ultimaLinha.innerHTML + "+" + dezena.toString()
-    }, "3000")
-    setTimeout(() => {
-      ultimaLinha.innerHTML = parseInt(ultimaLinha.innerHTML[0]) + parseInt(ultimaLinha.innerHTML[2])
-      removeAllMarcados()
-    }, "4500")
+      ultimaLinha.innerHTML = dezena
+    }, time)
+    time = time + 1500
     setTimeout(() => {
       removeAllMarcados()
-    }, "6000")
+    }, time)
+    time = time + 1500
   }
+  return(time)
 }
 let atualizaSpan1 = function(e){
   document.querySelector('#controleNum-1').innerHTML = e
@@ -317,6 +311,7 @@ let escondeInput = function(){
 let revelaInput = function(){
   let input = document.querySelector('#numControl')
   input.style.display = 'flex'
+  input.focus()
 }
 let enterBtn = function(){
   if (event.keyCode === 13) {
@@ -328,10 +323,9 @@ let refresh = function(){
 }
 let fraseFinal = function(num1, num2, resultado){
   let texto = document.createElement('p');
-  texto.innerHTML = `Parabéns! Você conseguiu achar o resultado da multiplicação de ${num1} x ${num2} = ${resultado} através do método Gelosia!`;
+  texto.innerHTML = `Parabéns! Você conseguiu achar o resultado da multiplicação de <b>${num1} x ${num2} = ${resultado} </b> através do método Gelosia!`;
   return texto;
 }
-
 let botaoNew = function(){
   let botao = document.createElement('button');
   botao.classList.add('botao-new');
